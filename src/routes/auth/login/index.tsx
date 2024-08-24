@@ -1,40 +1,28 @@
+import BrandLogo from '@/components/brand/logo';
 import { loginWithEmailAndPassword } from '@/services/auth';
 import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
 
 export const action = async ({request}: ActionFunctionArgs) => {
   const formData = await request.formData();
-
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
   try {
     await loginWithEmailAndPassword(email, password);
+    return redirect('/profile');
   } catch (err) {
     alert('Please check your credentials and try again!')
     console.error(err);
+    return null;
   }
-
-  return redirect('/profile');
 }
 
 const Login = () => {
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-50">
-        <body class="h-full">
-        ```
-      */}
       <div className="flex min-h-full flex-1 flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img
-            alt="Your Company"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            className="mx-auto h-10 w-auto"
-          />
+          <BrandLogo className="mx-auto h-10 w-auto" />
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
           </h2>
@@ -204,18 +192,3 @@ const Login = () => {
 };
 
 export default Login;
-
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
