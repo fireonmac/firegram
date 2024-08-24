@@ -1,22 +1,36 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Sidebar from "./sidebar";
+import Footer from "./footer";
+import { useObservableState } from 'observable-hooks';
+import { user$ } from "@/services/auth";
+import BrandLogo from "@/components/brand/logo";
 
 const Root = () => {
-  const authenticated = true;
+  const user = useObservableState(user$);
 
-  if (!authenticated) {
-    return <Navigate to="/login" />;
+  if (user === undefined) {
+    return <div className="grid absolute h-screen w-screen place-content-center">
+      <BrandLogo className="h-12" />
+    </div>
+  }
+
+  if (user === null) {
+    return <Navigate to="/accounts/login" />;
   }
 
   return (
     <>
       <Sidebar />
 
-      <main className="py-10 lg:pl-72">
+      <div className="py-10 lg:pl-72">
         <div className="px-4 sm:px-6 lg:px-8">
-          <Outlet />
+          <main className="min-h-screen">
+            <Outlet />
+          </main>
+
+          <Footer />
         </div>
-      </main>
+      </div>
     </>
   );
 };

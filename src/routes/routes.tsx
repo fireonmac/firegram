@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./root";
 import RootError from "./error/root";
-import Login from "./auth/login";
+import Login, { action as loginAction }  from "./auth/login";
+import { loader as logoutLoader } from './auth/logout';
 import Home from "./home";
 import Explore from "./explore";
 import Reels from "./reels";
@@ -12,6 +13,11 @@ const publicRoutes = [
   {
     path: "accounts/login",
     element: <Login />,
+    action: loginAction
+  },
+  {
+    path: "accounts/logout",
+    loader: logoutLoader,
   },
   {
     path: "accounts/emailsignup",

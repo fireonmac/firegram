@@ -1,3 +1,22 @@
+import { loginWithEmailAndPassword } from '@/services/auth';
+import { ActionFunctionArgs, Form, redirect } from 'react-router-dom';
+
+export const action = async ({request}: ActionFunctionArgs) => {
+  const formData = await request.formData();
+
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+
+  try {
+    await loginWithEmailAndPassword(email, password);
+  } catch (err) {
+    alert('Please check your credentials and try again!')
+    console.error(err);
+  }
+
+  return redirect('/profile');
+}
+
 const Login = () => {
   return (
     <>
@@ -23,7 +42,7 @@ const Login = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
           <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-            <form action="#" method="POST" className="space-y-6">
+            <Form method="post" className="space-y-6">
               <div>
                 <label
                   htmlFor="email"
@@ -96,7 +115,7 @@ const Login = () => {
                   Sign in
                 </button>
               </div>
-            </form>
+            </Form>
 
             <div>
               <div className="relative mt-10">
