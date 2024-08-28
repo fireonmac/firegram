@@ -1,12 +1,13 @@
 import BrandLogo from "@/components/brand/logo";
-import { Form, useActionData } from "react-router-dom";
+import { Form } from "react-router-dom";
+import { useActionData } from 'react-router-typesafe';
 
-import { ActionData, Intent, action as loginAction } from "./action";
+import { Intent, action as loginAction } from "./action"
 
 export const action = loginAction;
 
 const Login = () => {
-  const actionData = useActionData() as ActionData;
+  const actionData = useActionData<typeof action>();
 
   return (
     <>
