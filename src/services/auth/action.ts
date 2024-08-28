@@ -1,12 +1,24 @@
 import { auth } from "@/services/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { EmailAndPasswordLoginSchema } from "@/types/schema/auth";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 
-const loginWithEmailAndPassword = (email: string, password: string) => {
+const loginWithEmailAndPassword = ({
+  email,
+  password,
+}: EmailAndPasswordLoginSchema) => {
   return signInWithEmailAndPassword(auth, email, password);
+};
+
+const loginWithGoogle = () => {
+  return signInWithPopup(auth, new GoogleAuthProvider());
 };
 
 const logout = () => {
   return auth.signOut();
 };
 
-export { loginWithEmailAndPassword, logout };
+export { loginWithGoogle, loginWithEmailAndPassword, logout };
