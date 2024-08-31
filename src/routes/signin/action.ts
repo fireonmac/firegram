@@ -1,14 +1,14 @@
-import { loginWithEmailAndPassword } from "@/services/auth";
-import { loginWithGoogle } from "@/services/auth";
-import { emailAndPasswordLoginSchema } from "@/types/schema/auth";
+import { signInWithEmailAndPassword } from "@/services/auth";
+import { signInWithGoogle } from "@/services/auth";
+import { emailAndPasswordSignInSchema } from "@/types/schema/auth";
 import { redirect } from "react-router-dom";
 import { ActionFunction } from 'react-router-typesafe'
 
 import z from "zod";
 
 export enum Intent {
-  EmailAndPasswordLogin = "EmailAndPasswordLogin",
-  GoogleLogin = "GoogleLogin",
+  EmailAndPasswordSignIn = "EmailAndPasswordSignIn",
+  GoogleSignIn = "GoogleSignIn",
 }
 
 export const action = (async ({ request }) => {
@@ -17,10 +17,10 @@ export const action = (async ({ request }) => {
   const payload = Object.fromEntries(formData);
 
   switch (intent) {
-    case Intent.EmailAndPasswordLogin: {
+    case Intent.EmailAndPasswordSignIn: {
       try {
-        const validatedPayload = emailAndPasswordLoginSchema.parse(payload);
-        await loginWithEmailAndPassword(validatedPayload);
+        const validatedPayload = emailAndPasswordSignInSchema.parse(payload);
+        await signInWithEmailAndPassword(validatedPayload);
         return redirect("/");
       } catch (err) {
         // only catch form validation error here,
@@ -35,8 +35,8 @@ export const action = (async ({ request }) => {
         throw err;
       }
     }
-    case Intent.GoogleLogin: {
-      await loginWithGoogle();
+    case Intent.GoogleSignIn: {
+      await signInWithGoogle();
       return redirect("/");
     }
   }

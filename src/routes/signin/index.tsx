@@ -2,11 +2,11 @@ import BrandLogo from "@/components/brand/logo";
 import { Form } from "react-router-dom";
 import { useActionData } from 'react-router-typesafe';
 
-import { Intent, action as loginAction } from "./action"
+import { Intent, action as signInAction } from "./action"
 
-export const action = loginAction;
+export const action = signInAction;
 
-const Login = () => {
+const SignIn = () => {
   const actionData = useActionData<typeof action>();
 
   return (
@@ -94,7 +94,7 @@ const Login = () => {
               <div>
                 <button
                   name="intent"
-                  value={Intent.EmailAndPasswordLogin}
+                  value={Intent.EmailAndPasswordSignIn}
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
@@ -150,7 +150,7 @@ const Login = () => {
                     <button
                       type="submit"
                       name="intent"
-                      value={Intent.GoogleLogin}
+                      value={Intent.GoogleSignIn}
                       className="text-sm font-semibold leading-6"
                     >
                       Google
@@ -197,4 +197,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;

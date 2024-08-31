@@ -14,8 +14,8 @@ const passwordSchema = z.object({
   password: z
     .string()
     .min(
-      CONFIGS.PASSWORD_MAX_LENGTH,
-      `Password must be at least ${CONFIGS.PASSWORD_MAX_LENGTH} characters.`
+      CONFIGS.PASSWORD_MIN_LENGTH,
+      `Password must be at least ${CONFIGS.PASSWORD_MIN_LENGTH} characters.`
     )
     .max(
       CONFIGS.PASSWORD_MAX_LENGTH,
@@ -46,7 +46,7 @@ const refinePasswordMatchSchema = <T extends ZodRawShape>(
 /**
  * Exported schemas
  */
-export const emailAndPasswordLoginSchema = passwordSchema.extend({
+export const emailAndPasswordSignInSchema = passwordSchema.extend({
   email: z.string().email("Enter valid email address."),
 });
 
@@ -71,8 +71,8 @@ export const profileUpdateSchema = z.object({
 /**
  * Exported schema types
  */
-export type EmailAndPasswordLoginSchema = z.infer<
-  typeof emailAndPasswordLoginSchema
+export type EmailAndPasswordSignInSchema = z.infer<
+  typeof emailAndPasswordSignInSchema
 >;
 
 export type EmailAndPasswordSignUpSchema = z.infer<

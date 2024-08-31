@@ -15,7 +15,7 @@ const Root = () => {
   }
 
   if (user === null) {
-    return <Navigate to="/accounts/login" />;
+    return <Navigate to="/accounts/signIn" />;
   }
 
   return (
