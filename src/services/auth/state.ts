@@ -1,12 +1,13 @@
-import { from, fromEventPattern, share, startWith, switchMap, tap } from "rxjs";
-import { auth } from "../firebase";
-import { User } from "firebase/auth";
+import { user$ as firebaseUser$ } from "@/services/firebase/state";
+import { map } from "rxjs";
 
-export const user$ = from(auth.authStateReady()).pipe(
-  switchMap(() =>
-    fromEventPattern<User | null>((handler) => auth.onAuthStateChanged(handler))
-  ),
-  tap(user => console.log('user', user)),
-  startWith(undefined),
-  share(),
+export const user$ = firebaseUser$.pipe(
+  map((user) => {
+    return user?.uid;
+  })
 );
+
+/**
+ * auth status which returns true if user is authenticated, null if not, undefined if still loading
+ */
+export const auth$ = firebaseUser$.pipe(map((user) => (user ? true : user)));

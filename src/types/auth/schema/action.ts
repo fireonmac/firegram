@@ -1,10 +1,14 @@
 import { z, ZodObject, ZodRawShape } from "zod";
 
-const CONFIGS = {
-  PASSWORD_MIN_LENGTH: 6,
-  PASSWORD_MAX_LENGTH: 18,
-  USERNAME_MIN_LENGTH: 3,
-  USERNAME_MAX_LENGTH: 10,
+const configs = {
+  password: {
+    min: 6,
+    max: 18,
+  },
+  username: {
+    min: 3,
+    max: 10,
+  },
 };
 
 /**
@@ -14,12 +18,12 @@ const passwordSchema = z.object({
   password: z
     .string()
     .min(
-      CONFIGS.PASSWORD_MIN_LENGTH,
-      `Password must be at least ${CONFIGS.PASSWORD_MIN_LENGTH} characters.`
+      configs.password.min,
+      `Password must be at least ${configs.password.min} characters.`
     )
     .max(
-      CONFIGS.PASSWORD_MAX_LENGTH,
-      `Password must be at most ${CONFIGS.PASSWORD_MAX_LENGTH} characters.`
+      configs.password.max,
+      `Password must be at most ${configs.password.max} characters.`
     ),
 });
 
@@ -57,12 +61,12 @@ export const profileUpdateSchema = z.object({
   username: z
     .string()
     .min(
-      CONFIGS.USERNAME_MIN_LENGTH,
-      `Username must be at least ${CONFIGS.USERNAME_MIN_LENGTH} characters.`
+      configs.username.min,
+      `Username must be at least ${configs.username.min} characters.`
     )
     .max(
-      CONFIGS.USERNAME_MAX_LENGTH,
-      `Username must be at most ${CONFIGS.USERNAME_MAX_LENGTH} characters.`
+      configs.username.max,
+      `Username must be at most ${configs.username.max} characters.`
     ),
   firstName: z.string(),
   photoUrl: z.string().url("Enter valid URL."),

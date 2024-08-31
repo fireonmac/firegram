@@ -1,5 +1,5 @@
 import { auth } from "@/services/firebase";
-import { EmailAndPasswordSignInSchema } from "@/types/schema/auth";
+import { EmailAndPasswordSignInSchema } from "@/types/auth/schema";
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
