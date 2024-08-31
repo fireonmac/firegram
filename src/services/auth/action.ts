@@ -2,7 +2,7 @@ import { auth } from "@/services/firebase";
 import { EmailAndPasswordSignInSchema } from "@/types/schema/auth";
 import {
   GoogleAuthProvider,
-  signInWithEmailAndPassword,
+  signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
 
@@ -10,7 +10,7 @@ const signInWithEmailAndPassword = ({
   email,
   password,
 }: EmailAndPasswordSignInSchema) => {
-  return signInWithEmailAndPassword(auth, email, password);
+  return firebaseSignInWithEmailAndPassword(auth, email, password);
 };
 
 const signInWithGoogle = () => {
