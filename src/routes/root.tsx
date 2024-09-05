@@ -1,21 +1,31 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Sidebar from "./sidebar";
 import Footer from "./footer";
-import { useObservableState } from 'observable-hooks';
-import { user$ } from "@/services/auth";
+import { useObservableState } from "observable-hooks";
+import { uid$, profile$ } from "@/services/auth";
 import BrandLogo from "@/components/brand/logo";
 
 const Root = () => {
-  const user = useObservableState(user$);
+  const uid = useObservableState(uid$);
+  const profile = useObservableState(profile$);
 
-  if (user === undefined) {
-    return <div className="grid absolute h-screen w-screen place-content-center">
-      <BrandLogo className="h-12" />
-    </div>
+  // loading
+  if (uid === undefined) {
+    return (
+      <div className="grid absolute h-screen w-screen place-content-center">
+        <BrandLogo className="h-12" />
+      </div>
+    );
   }
 
-  if (user === null) {
+  // not authenticated
+  if (uid === null) {
     return <Navigate to="/accounts/signIn" />;
+  }
+
+  // authenticated but no profile
+  if (!profile) {
+    return <Navigate to="/accounts/edit" />;
   }
 
   return (
