@@ -5,6 +5,7 @@ import { useObservableState } from "observable-hooks";
 import { uid$, profile$ } from "@/services/auth";
 import BrandLogo from "@/components/brand/logo";
 
+
 const Root = () => {
   const uid = useObservableState(uid$);
   const profile = useObservableState(profile$);
@@ -25,7 +26,7 @@ const Root = () => {
 
   // authenticated but no profile
   if (!profile) {
-    return <Navigate to="/accounts/edit" />;
+    return <Navigate to="/accounts/create" />;
   }
 
   return (

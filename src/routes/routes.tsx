@@ -7,7 +7,7 @@ import Home from "./home";
 import Explore from "./explore";
 import Reels from "./reels";
 import Profile from "./proifle";
-import SignUp from "./signup";
+import SignUp, { action as signUpAction } from "./signup";
 import ProfileEdit from "./profile-edit";
 
 const publicRoutes = [
@@ -23,6 +23,7 @@ const publicRoutes = [
   {
     path: "accounts/emailsignup",
     element: <SignUp />,
+    action: signUpAction
   },
 ];
 

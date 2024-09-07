@@ -1,8 +1,11 @@
 import { signInWithEmailAndPassword } from "@/services/auth";
 import { signInWithGoogle } from "@/services/auth";
-import { emailAndPasswordSignInSchema } from "@/types/auth/schema";
+import {
+  EmailAndPasswordSignInSchema,
+  emailAndPasswordSignInSchema,
+} from "@/types/auth/schema";
 import { redirect } from "react-router-dom";
-import { ActionFunction } from 'react-router-typesafe'
+import { ActionFunction } from "react-router-typesafe";
 
 import z from "zod";
 
@@ -27,7 +30,9 @@ export const action = (async ({ request }) => {
         // other authenticaiton errors (especially from Firebase..) will be handled by error boundary
         if (err instanceof z.ZodError) {
           return {
-            errors: err.flatten().fieldErrors,
+            errors: err.flatten().fieldErrors as z.inferFlattenedErrors<
+              typeof emailAndPasswordSignInSchema
+            >["fieldErrors"],
           };
         }
 

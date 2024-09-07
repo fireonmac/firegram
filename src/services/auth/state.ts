@@ -1,5 +1,5 @@
 import { user$ as firebaseUser$ } from "@/services/firebase/state";
-import { from, map, of, shareReplay, switchMap } from "rxjs";
+import { catchError, from, map, of, shareReplay, switchMap } from "rxjs";
 import { getProfile } from "./action";
 
 /**
@@ -17,8 +17,13 @@ export const profile$ = firebaseUser$.pipe(
       return of(null);
     }
 
-    // If user is authenticated, return their profile
-    return from(getProfile(user.uid));
+    // If user is authenticated, return their profile or null if they don't have one
+    return from(getProfile(user.uid)).pipe(
+      catchError((err) => {
+        console.error(err);
+        return of(null);
+      })
+    );
   }),
   shareReplay(1)
 );

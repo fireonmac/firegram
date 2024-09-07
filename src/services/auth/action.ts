@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword as firebaseSignInWithEmailAndPassword,
   signInWithPopup,
+  createUserWithEmailAndPassword
 } from "firebase/auth";
 import { getDocs, query, where } from "firebase/firestore";
 
@@ -14,6 +15,16 @@ export const signInWithEmailAndPassword = ({
 }: EmailAndPasswordSignInSchema) => {
   return firebaseSignInWithEmailAndPassword(auth, email, password);
 };
+
+export const signupWithEmailAndPassword = ({
+  email, 
+  password,
+}: EmailAndPasswordSignInSchema
+  // signup schema is used only for client-side validation
+  // signin schema is enough for actual request
+) => {
+  return createUserWithEmailAndPassword(auth, email, password);
+}
 
 export const signInWithGoogle = () => {
   return signInWithPopup(auth, new GoogleAuthProvider());

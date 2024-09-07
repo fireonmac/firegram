@@ -6,11 +6,11 @@ import { z } from "zod";
 export const profileSchema = z.object({
   uid: z.string(),
   username: z.string(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  email: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  email: z.string().optional(),
   photoUrl: z.string().optional(),
-  gender: z.string(),
+  gender: z.string().optional(),
   bio: z.string().optional(),
   website: z.string().optional(),
 });

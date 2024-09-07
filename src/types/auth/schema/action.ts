@@ -45,6 +45,7 @@ const refinePasswordMatchSchema = <T extends ZodRawShape>(
     .merge(schema)
     .refine(({ password, confirmPassword }) => password === confirmPassword, {
       message: "Passwords do not match.",
+      path: ['confirmPassword']
     });
 
 /**

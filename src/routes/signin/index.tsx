@@ -1,8 +1,8 @@
 import BrandLogo from "@/components/brand/logo";
-import { Form } from "react-router-dom";
-import { useActionData } from 'react-router-typesafe';
+import { Form, Link } from "react-router-dom";
+import { useActionData } from "react-router-typesafe";
 
-import { Intent, action as signInAction } from "./action"
+import { Intent, action as signInAction } from "./action";
 
 export const action = signInAction;
 
@@ -37,9 +37,9 @@ const SignIn = () => {
                     autoComplete="email"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <span className="text-red-400 text-sm">
+                  <p className="text-destructive text-sm">
                     {actionData && actionData.errors?.email?.[0]}
-                  </span>
+                  </p>
                 </div>
               </div>
 
@@ -59,9 +59,9 @@ const SignIn = () => {
                     autoComplete="current-password"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  <span className="text-red-400 text-sm">
+                  <p className="text-destructive text-sm">
                     {actionData && actionData.errors?.password?.[0]}
-                  </span>
+                  </p>
                 </div>
               </div>
 
@@ -184,12 +184,12 @@ const SignIn = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{" "}
-            <a
-              href="#"
+            <Link
+              to="/accounts/emailsignup"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
-              Start a 14 day free trial
-            </a>
+              Join us and share your flames with others
+            </Link>
           </p>
         </div>
       </div>
