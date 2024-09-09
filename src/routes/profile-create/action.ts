@@ -26,34 +26,32 @@ export const action = (async ({ request }) => {
     }
 
     // upload profile image and get download URL
-    let downloadUrl: string | undefined;
-    if (validatedPayload.photoUpload) {
-      downloadUrl = await uploadFileToStorage({
+    let photoUrl: string | undefined;
+    if (validatedPayload.photoUpload?.name) {
+      photoUrl = await uploadFileToStorage({
         file: validatedPayload.photoUpload,
         path: `users/${validatedPayload.uid}`,
       });
     }
 
-    console.log(3);
-
     // update profile document
-    const profile = await createProfile({
-      ...profileSchema.parse(validatedPayload),
-      photoUrl: downloadUrl,
+    const profileData = profileSchema.parse({
+      ...validatedPayload,
+      ...(photoUrl ? { photoUrl } : {}),
     });
+
+    const profile = await createProfile(profileData);
 
     if (!profile) {
       throw new Error("Could not read profile.");
     }
 
-    console.log(4);
-
     profileUpdate$$.next(profile);
     return redirect("/");
   } catch (err) {
     if (err instanceof z.ZodError) {
-      console.log('z.err', err);
-      
+      console.log("z.err", err);
+
       return {
         errors: err.flatten().fieldErrors as z.inferFlattenedErrors<
           typeof profileUpdateSchema

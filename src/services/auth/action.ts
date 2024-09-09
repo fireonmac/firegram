@@ -1,8 +1,5 @@
 import { auth } from "@/services/firebase";
-import {
-  EmailAndPasswordSignInSchema,
-  ProfileUpdateSchema,
-} from "@/types/auth/schema";
+import { EmailAndPasswordSignInSchema } from "@/types/auth/schema";
 import { Profile, profileCollection } from "@/types/auth/schema/model";
 import {
   GoogleAuthProvider,
@@ -10,13 +7,7 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import {
-  addDoc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
 
 export const signInWithEmailAndPassword = ({
   email,
