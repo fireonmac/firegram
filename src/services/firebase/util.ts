@@ -1,5 +1,8 @@
-import { FirestoreDataConverter } from "firebase/firestore";
+import { FirestoreDataConverter, Transaction } from "firebase/firestore";
 import { z } from "zod";
+
+import { runTransaction as firestoreRunTransaction } from "firebase/firestore";
+import { db } from ".";
 
 /**
  * Generates a FirestoreDataConverter for a given Zod schema.
@@ -16,3 +19,7 @@ export const createFirestoreDataConverter = <T extends z.ZodTypeAny>(
     return schema.parse(data);
   },
 });
+
+export const runTransaction = (
+  cb: (transaction: Transaction) => Promise<unknown>
+) => firestoreRunTransaction(db, cb);

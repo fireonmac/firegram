@@ -1,15 +1,6 @@
 import { z, ZodObject, ZodRawShape } from "zod";
-
-const configs = {
-  password: {
-    min: 6,
-    max: 18,
-  },
-  username: {
-    min: 3,
-    max: 10,
-  },
-};
+import { profileSchema } from "./model";
+import { configs } from "./config";
 
 /**
  * Units
@@ -45,7 +36,7 @@ const refinePasswordMatchSchema = <T extends ZodRawShape>(
     .merge(schema)
     .refine(({ password, confirmPassword }) => password === confirmPassword, {
       message: "Passwords do not match.",
-      path: ['confirmPassword']
+      path: ["confirmPassword"],
     });
 
 /**
@@ -58,20 +49,23 @@ export const emailAndPasswordSignInSchema = passwordSchema.extend({
 export const emailAndPasswordSignUpSchema =
   refinePasswordMatchSchema(emailSchema);
 
-export const profileUpdateSchema = z.object({
-  username: z
-    .string()
-    .min(
-      configs.username.min,
-      `Username must be at least ${configs.username.min} characters.`
-    )
-    .max(
-      configs.username.max,
-      `Username must be at most ${configs.username.max} characters.`
-    ),
-  firstName: z.string(),
-  photoUrl: z.string().url("Enter valid URL."),
-});
+export const profileUpdateSchema = profileSchema
+  .extend({
+    username: z
+      .string()
+      .min(
+        configs.username.min,
+        `Username must be at least ${configs.username.min} characters.`
+      )
+      .max(
+        configs.username.max,
+        `Username must be at most ${configs.username.max} characters.`
+      ),
+    photoUpload: z.instanceof(File, {
+      message: "Photo must be a file.",
+    }).optional(),
+  })
+  .omit({ photoUrl: true });
 
 /**
  * Exported schema types

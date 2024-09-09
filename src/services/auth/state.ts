@@ -1,29 +1,41 @@
 import { user$ as firebaseUser$ } from "@/services/firebase/state";
-import { catchError, from, map, of, shareReplay, switchMap } from "rxjs";
+import {
+  catchError,
+  filter,
+  from,
+  map,
+  merge,
+  of,
+  shareReplay,
+  startWith,
+  Subject,
+  switchMap,
+} from "rxjs";
 import { getProfile } from "./action";
+import { Profile } from "@/types/auth/schema";
 
 /**
  * uid if user is authenticated, null if not, undefined if still loading
  */
 export const uid$ = firebaseUser$.pipe(map((user) => (user ? user.uid : user)));
 
+export const profileUpdate$$ = new Subject<Profile>();
+
 /**
  * when user is authenticated, get their profile
  */
-export const profile$ = firebaseUser$.pipe(
-  switchMap((user) => {
-    // If user is not authenticated, return null
-    if (!user) {
-      return of(null);
-    }
-
-    // If user is authenticated, return their profile or null if they don't have one
-    return from(getProfile(user.uid)).pipe(
-      catchError((err) => {
-        console.error(err);
-        return of(null);
-      })
+export const profile$ = uid$.pipe(
+  filter(Boolean),
+  switchMap((uid) => {
+    /**
+     * If user is authenticated, return their profile or null if they don't have one
+     * also, listen to profileUpdate$$ when user create new profile or update existing one
+     */
+    return merge(
+      from(getProfile(uid)),
+      profileUpdate$$
     );
   }),
+  startWith(undefined),
   shareReplay(1)
 );

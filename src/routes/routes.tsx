@@ -9,6 +9,7 @@ import Reels from "./reels";
 import Profile from "./proifle";
 import SignUp, { action as signUpAction } from "./signup";
 import ProfileEdit from "./profile-edit";
+import ProfileCreate, { action as profileCreateAction } from "./profile-create";
 
 const publicRoutes = [
   {
@@ -23,7 +24,7 @@ const publicRoutes = [
   {
     path: "accounts/emailsignup",
     element: <SignUp />,
-    action: signUpAction
+    action: signUpAction,
   },
 ];
 
@@ -55,12 +56,19 @@ const router = createBrowserRouter([
     errorElement: <RootError />,
     children: [
       {
-        path: "",
-        element: <Root />,
-        children: privateRoutes,
+        children: publicRoutes,
       },
       {
-        children: publicRoutes,
+        /**
+         * exception: authenticated, but profile is not created yet
+         */
+        path: "accounts/create",
+        element: <ProfileCreate />,
+        action: profileCreateAction,
+      },
+      {
+        element: <Root />,
+        children: privateRoutes,
       },
     ],
   },

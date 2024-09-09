@@ -1,9 +1,6 @@
 import { signInWithEmailAndPassword } from "@/services/auth";
 import { signInWithGoogle } from "@/services/auth";
-import {
-  EmailAndPasswordSignInSchema,
-  emailAndPasswordSignInSchema,
-} from "@/types/auth/schema";
+import { emailAndPasswordSignInSchema } from "@/types/auth/schema";
 import { redirect } from "react-router-dom";
 import { ActionFunction } from "react-router-typesafe";
 

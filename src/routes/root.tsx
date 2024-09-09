@@ -5,40 +5,47 @@ import { useObservableState } from "observable-hooks";
 import { uid$, profile$ } from "@/services/auth";
 import BrandLogo from "@/components/brand/logo";
 
+const Loading = () => (
+  <div className="grid absolute h-screen w-screen place-content-center">
+    <BrandLogo className="h-12" />
+  </div>
+);
 
 const Root = () => {
   const uid = useObservableState(uid$);
   const profile = useObservableState(profile$);
 
-  // loading
+  // loading auth
   if (uid === undefined) {
-    return (
-      <div className="grid absolute h-screen w-screen place-content-center">
-        <BrandLogo className="h-12" />
-      </div>
-    );
+    return <Loading />;
   }
 
   // not authenticated
   if (uid === null) {
-    return <Navigate to="/accounts/signIn" />;
+    return <Navigate to="/accounts/signIn" replace />;
+  }
+
+  // loading profile
+  if (profile === undefined) {
+    return <Loading />;
   }
 
   // authenticated but no profile
-  if (!profile) {
+  if (profile === null) {
     return <Navigate to="/accounts/create" />;
   }
 
+  // authenticated and profile exists
   return (
     <>
       <Sidebar />
-
+      {/* main container */}
       <div className="py-10 lg:pl-72">
         <div className="px-4 sm:px-6 lg:px-8">
           <main className="min-h-screen">
             <Outlet />
           </main>
-
+          
           <Footer />
         </div>
       </div>

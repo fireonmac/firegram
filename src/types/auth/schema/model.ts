@@ -6,8 +6,8 @@ import { z } from "zod";
 export const profileSchema = z.object({
   uid: z.string(),
   username: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
   email: z.string().optional(),
   photoUrl: z.string().optional(),
   gender: z.string().optional(),
@@ -15,7 +15,7 @@ export const profileSchema = z.object({
   website: z.string().optional(),
 });
 
-const profileConverter = createFirestoreDataConverter(profileSchema);
+export const profileConverter = createFirestoreDataConverter(profileSchema);
 
 export const profileCollection = collection(db, "profiles").withConverter(profileConverter);
 

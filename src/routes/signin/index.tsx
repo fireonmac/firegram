@@ -1,13 +1,15 @@
 import BrandLogo from "@/components/brand/logo";
-import { Form, Link } from "react-router-dom";
+import { Form, Link, useNavigation } from "react-router-dom";
 import { useActionData } from "react-router-typesafe";
 
 import { Intent, action as signInAction } from "./action";
+import { Button } from "@/components/ui/button";
 
 export const action = signInAction;
 
 const SignIn = () => {
   const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
 
   return (
     <>
@@ -92,14 +94,15 @@ const SignIn = () => {
               </div>
 
               <div>
-                <button
+                <Button
                   name="intent"
                   value={Intent.EmailAndPasswordSignIn}
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="w-full"
+                  submitting={!!navigation.location}
                 >
                   Sign in
-                </button>
+                </Button>
               </div>
             </Form>
 
