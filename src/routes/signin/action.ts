@@ -23,6 +23,7 @@ export const action = (async ({ request }) => {
         await signInWithEmailAndPassword(validatedPayload);
         return redirect("/");
       } catch (err) {
+        console.error(err);
         // only catch form validation error here,
         // other authenticaiton errors (especially from Firebase..) will be handled by error boundary
         if (err instanceof z.ZodError) {
@@ -32,8 +33,6 @@ export const action = (async ({ request }) => {
             >["fieldErrors"],
           };
         }
-
-        console.error(err);
         throw err;
       }
     }

@@ -42,7 +42,7 @@ export const getProfile = async (uid: string) => {
     // assuming there is only one profile per user for now
     return querySnapshot.docs[0].data();
   } else {
-    console.log("No such document!");
+    console.error("No such document!");
     return null;
   }
 };

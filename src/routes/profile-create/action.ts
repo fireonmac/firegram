@@ -49,17 +49,14 @@ export const action = (async ({ request }) => {
     profileUpdate$$.next(profile);
     return redirect("/");
   } catch (err) {
+    console.error(err);
     if (err instanceof z.ZodError) {
-      console.log("z.err", err);
-
       return {
         errors: err.flatten().fieldErrors as z.inferFlattenedErrors<
           typeof profileUpdateSchema
         >["fieldErrors"],
       };
     }
-
-    console.error(err);
     throw err;
   }
 }) satisfies ActionFunction;

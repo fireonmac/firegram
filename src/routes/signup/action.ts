@@ -12,6 +12,7 @@ export const action = (async ({ request }) => {
     await signupWithEmailAndPassword(validatedPayload);
     return redirect("/accounts/create");
   } catch (err) {
+    console.error(err);
     if (err instanceof z.ZodError) {
       return {
         errors: err.flatten().fieldErrors as z.inferFlattenedErrors<
@@ -19,8 +20,6 @@ export const action = (async ({ request }) => {
         >["fieldErrors"],
       };
     }
-
-    console.error(err);
     throw err;
   }
 }) satisfies ActionFunction;
