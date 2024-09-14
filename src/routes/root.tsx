@@ -41,7 +41,7 @@ const Root = () => {
       <Sidebar />
       {/* main container */}
       <div className="py-10 lg:pl-72">
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 lg:max-w-screen-lg mx-auto">
           <main className="min-h-screen">
             <Outlet />
           </main>
