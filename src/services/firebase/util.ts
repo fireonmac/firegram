@@ -1,22 +1,39 @@
-import { FirestoreDataConverter, Transaction } from "firebase/firestore";
-import { z } from "zod";
+import {
+  FirestoreDataConverter,
+  serverTimestamp,
+  Transaction,
+} from "firebase/firestore";
+import { z, ZodObject, ZodRawShape } from "zod";
 
 import { runTransaction as firestoreRunTransaction } from "firebase/firestore";
 import { db } from ".";
 
 /**
  * Generates a FirestoreDataConverter for a given Zod schema.
+ * All data gets parsed with the schema and the createdAt and * * * updatedAt fields are added.
  */
-export const createFirestoreDataConverter = <T extends z.ZodTypeAny>(
-  schema: T
-): FirestoreDataConverter<z.infer<T>> => ({
-  toFirestore(data: z.infer<T>) {
+export const createFirestoreDataConverter = <T extends ZodRawShape>(
+  schema: ZodObject<T>
+): FirestoreDataConverter<z.infer<ZodObject<T>>> => ({
+  toFirestore(data: z.infer<ZodObject<T>>) {
     const parsedData = schema.parse(data);
-    return parsedData;
+    const timestamp = serverTimestamp();
+    return {
+      ...parsedData,
+      createdAt: data.createdAt || timestamp,
+      updatedAt: timestamp,
+    };
   },
   fromFirestore(snapshot, options) {
     const data = snapshot.data(options);
-    return schema.parse(data);
+    data.createdAt = data.createdAt.toDate();
+    data.updatedAt = data.updatedAt.toDate();
+    return schema.parse({
+      ...data,
+      id: snapshot.id,
+      ...(data.createdAt ? {} : { createdAt: data.createdAt.toDate() }),
+      ...(data.updatedAt ? {} : { updatedAt: data.updatedAt.toDate() }),
+    });
   },
 });
 
