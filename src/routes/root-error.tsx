@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useRouteError } from "react-router-dom";
 
 const RootError = () => {
   const navigate = useNavigate();
+  const error = useRouteError();
+  console.error(error);
 
   return (
     <main className="grid min-h-screen place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">

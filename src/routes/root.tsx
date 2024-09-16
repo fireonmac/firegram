@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, ScrollRestoration } from "react-router-dom";
 import Sidebar from "./sidebar";
 import Footer from "./footer";
 import { useObservableState } from "observable-hooks";
@@ -48,6 +48,7 @@ const Root = () => {
           
           <Footer />
         </div>
+        <ScrollRestoration />
       </div>
     </>
   );

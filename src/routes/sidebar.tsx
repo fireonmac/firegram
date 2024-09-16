@@ -25,7 +25,7 @@ import { useObservableEagerState } from "observable-hooks";
 import { profile$ } from "@/services/auth";
 import { fullNamePipe } from "@/services/auth/util";
 import { filter } from "rxjs";
-import { Avatar, AvatarFallback, ProfileAvatar } from "@/components/ui/avatar";
+import { ProfileAvatar } from "@/components/ui/avatar";
 
 const navigation = [
   { name: "Home", href: "/", icon: HomeIcon, current: true },
