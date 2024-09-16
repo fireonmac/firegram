@@ -45,15 +45,15 @@ const ProfileEdit = () => {
         </h2>
 
         <Form method="post" encType="multipart/form-data">
-          <input name="uid" value={uid} className="sr-only" />
+          <input name="uid" defaultValue={uid} className="sr-only" />
           <input
             name="currentUsername"
-            value={profile.username}
+            defaultValue={profile.username}
             className="sr-only"
           />
           <input
             name="currentEmail"
-            value={profile.email}
+            defaultValue={profile.email}
             className="sr-only"
           />
 
@@ -227,6 +227,9 @@ However, when a button element is clicked within the label, the button's click e
                       defaultValue={profile.email}
                     />
                   </div>
+                  <p className="text-sm text-destructive">
+                    {actionData?.errors?.email?.[0]}
+                  </p>
                 </div>
               </div>
             </div>

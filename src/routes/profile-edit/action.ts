@@ -18,24 +18,24 @@ export const action = (async ({ request }) => {
 
     if (
       validatedPayload.currentUsername !== validatedPayload.username && // check whether username has changed
-      !checkUsernameIsUnique(validatedPayload.username) // check whether username is unique
+      !(await checkUsernameIsUnique(validatedPayload.username)) // check whether username is unique
     ) {
       return {
         errors: {
-          username: "Username is already taken.",
+          username: ["Username is already taken."],
         },
       };
     }
-    
+
     if (
       validatedPayload.currentEmail &&
       validatedPayload.currentEmail !== validatedPayload.email &&
       validatedPayload.email &&
-      !checkEmailIsUnique(validatedPayload.email)
+      !(await checkEmailIsUnique(validatedPayload.email))
     ) {
       return {
         errors: {
-          email: "Email is already taken.",
+          email: ["Email is already taken."],
         },
       };
     }

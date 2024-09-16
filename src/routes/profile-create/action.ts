@@ -18,18 +18,21 @@ export const action = (async ({ request }) => {
     const validatedPayload = profileCreateSchema.parse(payload);
 
     // check whether username is unique
-    if (!checkUsernameIsUnique(validatedPayload.username)) {
+    if (!(await checkUsernameIsUnique(validatedPayload.username))) {
       return {
         errors: {
-          username: "Username is already taken.",
+          username: ["Username is already taken."],
         },
       };
     }
 
-    if (validatedPayload.email && !checkEmailIsUnique(validatedPayload.email)) {
+    if (
+      validatedPayload.email &&
+      !(await checkEmailIsUnique(validatedPayload.email))
+    ) {
       return {
         errors: {
-          email: "Email is already taken.",
+          email: ["Email is already taken."],
         },
       };
     }
