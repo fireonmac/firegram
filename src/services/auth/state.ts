@@ -1,11 +1,9 @@
 import { user$ as firebaseUser$ } from "@/services/firebase/state";
 import {
-  catchError,
   filter,
   from,
   map,
   merge,
-  of,
   shareReplay,
   startWith,
   Subject,
@@ -31,10 +29,7 @@ export const profile$ = uid$.pipe(
      * If user is authenticated, return their profile or null if they don't have one
      * also, listen to profileUpdate$$ when user create new profile or update existing one
      */
-    return merge(
-      from(getProfile(uid)),
-      profileUpdate$$
-    );
+    return merge(from(getProfile(uid)), profileUpdate$$);
   }),
   startWith(undefined),
   shareReplay(1)

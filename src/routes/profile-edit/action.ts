@@ -1,13 +1,12 @@
 import {
   checkEmailIsUnique,
   checkUsernameIsUnique,
-  createProfile,
   profileUpdate$$,
+  updateProfile,
 } from "@/services/auth";
 import { uploadFileToStorage } from "@/services/storage";
-import { profileSchema, profileCreateSchema } from "@/types/auth/schema";
-import { ActionFunction, redirect } from "react-router-typesafe";
-
+import { profileSchema, profileUpdateSchema } from "@/types/auth/schema";
+import { ActionFunction } from "react-router-typesafe";
 import { z } from "zod";
 
 export const action = (async ({ request }) => {
@@ -15,18 +14,25 @@ export const action = (async ({ request }) => {
   const payload = Object.fromEntries(formData);
 
   try {
-    const validatedPayload = profileCreateSchema.parse(payload);
+    const validatedPayload = profileUpdateSchema.parse(payload);
 
-    // check whether username is unique
-    if (!checkUsernameIsUnique(validatedPayload.username)) {
+    if (
+      validatedPayload.currentUsername !== validatedPayload.username && // check whether username has changed
+      !checkUsernameIsUnique(validatedPayload.username) // check whether username is unique
+    ) {
       return {
         errors: {
           username: "Username is already taken.",
         },
       };
     }
-
-    if (validatedPayload.email && !checkEmailIsUnique(validatedPayload.email)) {
+    
+    if (
+      validatedPayload.currentEmail &&
+      validatedPayload.currentEmail !== validatedPayload.email &&
+      validatedPayload.email &&
+      !checkEmailIsUnique(validatedPayload.email)
+    ) {
       return {
         errors: {
           email: "Email is already taken.",
@@ -49,21 +55,25 @@ export const action = (async ({ request }) => {
       ...(photoUrl ? { photoUrl } : {}),
     });
 
-    const profile = await createProfile(profileData);
+    const profile = await updateProfile(profileData);
 
     if (!profile) {
-      throw new Error("Could not read newly created profile.");
+      throw new Error("Could not read newly updated profile.");
     }
 
     // update profile$ state
     profileUpdate$$.next(profile);
-    return redirect("/");
+
+    return {
+      profile,
+      message: "Profile updated successfully.",
+    };
   } catch (err) {
     console.error(err);
     if (err instanceof z.ZodError) {
       return {
         errors: err.flatten().fieldErrors as z.inferFlattenedErrors<
-          typeof profileCreateSchema
+          typeof profileUpdateSchema
         >["fieldErrors"],
       };
     }

@@ -8,7 +8,7 @@ import Explore from "./explore";
 import Reels from "./reels";
 import Profile from "./profile";
 import SignUp, { action as signUpAction } from "./signup";
-import ProfileEdit from "./profile-edit";
+import ProfileEdit, { action as profileEditAction } from "./profile-edit";
 import ProfileCreate, { action as profileCreateAction } from "./profile-create";
 
 const publicRoutes = [
@@ -48,6 +48,7 @@ const privateRoutes = [
   {
     path: "accounts/edit",
     element: <ProfileEdit />,
+    action: profileEditAction
   },
 ];
 

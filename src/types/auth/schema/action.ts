@@ -49,7 +49,7 @@ export const emailAndPasswordSignInSchema = passwordSchema.extend({
 export const emailAndPasswordSignUpSchema =
   refinePasswordMatchSchema(emailSchema);
 
-export const profileUpdateSchema = profileSchema
+export const profileCreateSchema = profileSchema
   .extend({
     username: z
       .string()
@@ -61,11 +61,18 @@ export const profileUpdateSchema = profileSchema
         configs.username.max,
         `Username must be at most ${configs.username.max} characters.`
       ),
-    photoUpload: z.instanceof(File, {
-      message: "Photo must be a file.",
-    }).optional(),
+    photoUpload: z
+      .instanceof(File, {
+        message: "Photo must be a file.",
+      })
+      .optional(),
   })
   .omit({ photoUrl: true });
+
+export const profileUpdateSchema = profileCreateSchema.extend({
+  currentUsername: z.string(),
+  currentEmail: z.string().optional(),
+});
 
 /**
  * Exported schema types
@@ -78,4 +85,4 @@ export type EmailAndPasswordSignUpSchema = z.infer<
   typeof emailAndPasswordSignUpSchema
 >;
 
-export type ProfileUpdateSchema = z.infer<typeof profileUpdateSchema>;
+export type ProfileCreateSchema = z.infer<typeof profileCreateSchema>;

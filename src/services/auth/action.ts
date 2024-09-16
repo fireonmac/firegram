@@ -7,7 +7,15 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 export const signInWithEmailAndPassword = ({
   email,
@@ -47,6 +55,10 @@ export const getProfile = async (uid: string) => {
   }
 };
 
+/**
+ * Currently multiple profiles with the same user is not allowed
+ * also, email is unique
+ */
 export const createProfile = async (profile: Profile) => {
   const q = query(profileCollection, where("uid", "==", profile.uid));
   const querySnapshot = await getDocs(q);
@@ -60,8 +72,32 @@ export const createProfile = async (profile: Profile) => {
   return docSnapshot.data();
 };
 
+export const updateProfile = async (profile: Profile) => {
+  const q = query(profileCollection, where("uid", "==", profile.uid));
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    throw new Error("Profile does not exist for this user.");
+  }
+
+  const docRef = querySnapshot.docs[0].ref;
+  await updateDoc(docRef, {
+    ...profile,
+    updatedAt: serverTimestamp(),
+  });
+
+  const docSnapshot = await getDoc(docRef);
+  return docSnapshot.data();
+};
+
 export const checkUsernameIsUnique = async (username: string) => {
   const q = query(profileCollection, where("username", "==", username));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.empty;
+};
+
+export const checkEmailIsUnique = async (email: string) => {
+  const q = query(profileCollection, where("email", "==", email));
   const querySnapshot = await getDocs(q);
   return querySnapshot.empty;
 };

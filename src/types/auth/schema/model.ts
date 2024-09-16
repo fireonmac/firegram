@@ -8,8 +8,8 @@ export const profileSchema = createCollectionSchema(
   z.object({
     uid: z.string(),
     username: z.string(),
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
+    firstName: z.string(),
+    lastName: z.string(),
     email: z.string().optional(),
     photoUrl: z.string().optional(),
     gender: z.string().optional(),

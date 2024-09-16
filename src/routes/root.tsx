@@ -4,6 +4,7 @@ import Footer from "./footer";
 import { useObservableState } from "observable-hooks";
 import { uid$, profile$ } from "@/services/auth";
 import BrandLogo from "@/components/brand/logo";
+import { Toaster } from "@/components/ui/toaster";
 
 const Loading = () => (
   <div className="grid absolute h-screen w-screen place-content-center">
@@ -46,6 +47,7 @@ const Root = () => {
             <Outlet />
           </main>
           
+          <Toaster />
           <Footer />
         </div>
         <ScrollRestoration />
