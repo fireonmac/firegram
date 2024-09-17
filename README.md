@@ -1,3 +1,5 @@
+![logo](https://github.com/user-attachments/assets/8ba9bb06-d9db-4f0c-bb0f-1fb095bb179a)
+
 # Firegram
 This is a social media app inspired by Instagram, and Twitter that can share photos, send messages, chat with other users.
 The purpose of building this app is to learn new technologies by applying on a concrete application. This repository will be steadily maintained as I grow as a developer.
@@ -10,7 +12,6 @@ The purpose of building this app is to learn new technologies by applying on a c
 ### State Management
 #### Global State
 - RxJS
-- Observable Hooks
 #### Local or Server State
 - React Context API
 - React Router 6 with loader and action functions
@@ -26,11 +27,13 @@ The purpose of building this app is to learn new technologies by applying on a c
 - Zod
 - Firestore Data Converter
 
-### Conventions
-#### Declaratative, Reactive Programming
+## Conventions
+### Declaratative, Reactive Programming
 ...
-#### Web Standard
+### Web Standard
 ...
-#### Angular File Name Convention
+### Angular File Name Convention
 ...
 
+## References
+...
