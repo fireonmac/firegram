@@ -1,3 +1,5 @@
+![logo](https://github.com/user-attachments/assets/8ba9bb06-d9db-4f0c-bb0f-1fb095bb179a)
+
 # Firegram
 This is a social media app inspired by Instagram, and Twitter that can share photos, send messages, chat with other users.
 The purpose of building this app is to learn new technologies by applying on a concrete application. This repository will be steadily maintained as I grow as a developer.
