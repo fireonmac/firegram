@@ -1,7 +1,7 @@
-import { user$ as firebaseUser$ } from "@/services/firebase/state";
 import {
   filter,
   from,
+  fromEventPattern,
   map,
   merge,
   shareReplay,
@@ -11,11 +11,22 @@ import {
 } from "rxjs";
 import { getProfile } from "./action";
 import { Profile } from "@/types/auth/schema";
+import { User } from "firebase/auth";
+import { auth } from "../firebase";
+
+
+export const user$ = from(auth.authStateReady()).pipe(
+  switchMap(() =>
+    fromEventPattern<User | null>((handler) => auth.onAuthStateChanged(handler))
+  ),
+  startWith(undefined),
+  shareReplay(1)
+);
 
 /**
  * uid if user is authenticated, null if not, undefined if still loading
  */
-export const uid$ = firebaseUser$.pipe(map((user) => (user ? user.uid : user)));
+export const uid$ = user$.pipe(map((user) => (user ? user.uid : user)));
 
 export const profileUpdate$$ = new Subject<Profile>();
 

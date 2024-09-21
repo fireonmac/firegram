@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import {
   addDoc,
+  and,
   getDoc,
   getDocs,
   query,
@@ -16,6 +17,10 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+
+const getCurrentUid = () => {
+  return auth.currentUser?.uid;
+};
 
 export const signInWithEmailAndPassword = ({
   email,
@@ -73,7 +78,15 @@ export const createProfile = async (profile: Profile) => {
 };
 
 export const updateProfile = async (profile: Profile) => {
-  const q = query(profileCollection, where("uid", "==", profile.uid));
+  if (getCurrentUid() !== profile.uid) {
+    throw new Error("Invalid user.");
+  }
+
+  const q = query(
+    profileCollection,
+    and(where("uid", "==", profile.uid), where("id", "==", profile.id))
+  );
+
   const querySnapshot = await getDocs(q);
 
   if (querySnapshot.empty) {

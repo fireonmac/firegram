@@ -17,6 +17,7 @@ const ProfileEdit = () => {
 
   const uid = useObservableEagerState(uid$);
   const profile = useObservableEagerState(profile$);
+
   if (!uid || !profile) {
     throw new Error("User must be authenticated to edit profile");
   }
@@ -45,6 +46,7 @@ const ProfileEdit = () => {
         </h2>
 
         <Form method="post" encType="multipart/form-data">
+          <input name="id" defaultValue={profile.id} className="sr-only" />
           <input name="uid" defaultValue={uid} className="sr-only" />
           <input
             name="currentUsername"

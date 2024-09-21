@@ -70,6 +70,7 @@ export const profileCreateSchema = profileSchema
   .omit({ photoUrl: true });
 
 export const profileUpdateSchema = profileCreateSchema.extend({
+  id: z.string(),
   currentUsername: z.string(),
   currentEmail: z.string().optional(),
 });

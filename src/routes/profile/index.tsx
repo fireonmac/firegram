@@ -59,10 +59,10 @@ const Profile = () => {
       <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
         {profile.uid === uid ? (
           <Link to="/accounts/edit">
-            <Button variant="secondary">Edit profile</Button>
+            <Button className="w-full"  variant="secondary">Edit profile</Button>
           </Link>
         ) : (
-          <Button>Follow</Button>
+          <Button className="w-full">Follow</Button>
         )}
       </div>
     </div>
