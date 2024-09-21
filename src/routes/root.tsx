@@ -36,6 +36,11 @@ const Root = () => {
     return <Navigate to="/accounts/create" />;
   }
 
+  // authenticated but invalid access
+  if (profile.uid !== uid) {
+    throw new Error('Invalid access.')
+  }
+
   // authenticated and profile exists
   return (
     <>
