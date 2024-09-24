@@ -17,7 +17,7 @@ import { auth } from "../firebase";
 
 export const user$ = from(auth.authStateReady()).pipe(
   switchMap(() =>
-    fromEventPattern<User | null>((handler) => auth.onAuthStateChanged(handler))
+    fromEventPattern<User | null>((handler) => auth.onIdTokenChanged(handler))
   ),
   startWith(undefined),
   shareReplay(1)

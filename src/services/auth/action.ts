@@ -79,7 +79,7 @@ export const createProfile = async (profile: Profile) => {
 
 export const updateProfile = async (profile: Profile) => {
   if (getCurrentUid() !== profile.uid) {
-    throw new Error("Invalid user.");
+    throw new Error("Invalid access.");
   }
 
   const q = query(
