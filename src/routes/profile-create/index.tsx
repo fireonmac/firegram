@@ -1,4 +1,4 @@
-import { uid$ } from "@/services/auth";
+import { uid$, user$ } from "@/services/auth";
 import { useObservableEagerState } from "observable-hooks";
 import { Form, Navigate, useNavigation } from "react-router-dom";
 
@@ -17,7 +17,9 @@ const ProfileCreate = () => {
   const navigation = useNavigation();
 
   const uid = useObservableEagerState(uid$);
-  if (!uid) {
+  const user = useObservableEagerState(user$);
+
+  if (!uid || !user) {
     return <Navigate to="/accounts/signIn" replace />;
   }
 
@@ -195,6 +197,8 @@ However, when a button element is clicked within the label, the button's click e
                   </label>
                   <div className="mt-2">
                     <input
+                      readOnly={!!user.email}
+                      defaultValue={user.email || undefined}
                       id="email"
                       name="email"
                       type="email"
