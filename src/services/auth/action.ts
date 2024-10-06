@@ -60,6 +60,19 @@ export const getProfile = async (uid: string) => {
   }
 };
 
+export const getProfileByUsername = async (username: string) => {
+  const q = query(profileCollection, where("username", "==", username));
+  const querySnapshot = await getDocs(q);
+
+  if (!querySnapshot.empty) {
+    // assuming there is only one profile per user for now
+    return querySnapshot.docs[0].data();
+  } else {
+    console.error("No such document!");
+    return null;
+  }
+}
+
 /**
  * Currently multiple profiles with the same user is not allowed
  * also, email is unique

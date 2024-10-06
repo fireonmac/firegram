@@ -1,17 +1,21 @@
 import { ProfileAvatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { profile$, uid$ } from "@/services/auth";
-import { useObservableEagerState } from "observable-hooks";
 import { Link } from "react-router-dom";
-import { filter } from "rxjs";
 
 import { format } from "date-fns";
 import { CalendarDays } from "lucide-react";
 import { fullNamePipe } from "@/services/auth/util";
 
+import { loader as profileLoader } from "./loader";
+import { useLoaderData } from "react-router-typesafe";
+import { useObservableEagerState } from "observable-hooks";
+import { uid$ } from "@/services/auth";
+
+export const loader = profileLoader;
+
 const Profile = () => {
   const uid = useObservableEagerState(uid$);
-  const profile = useObservableEagerState(profile$.pipe(filter(Boolean)));
+  const { profile } = useLoaderData<typeof loader>();
 
   return (
     <div className="md:flex md:items-center md:justify-between md:space-x-5">
@@ -59,7 +63,9 @@ const Profile = () => {
       <div className="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
         {profile.uid === uid ? (
           <Link to="/accounts/edit">
-            <Button className="w-full"  variant="secondary">Edit profile</Button>
+            <Button className="w-full" variant="secondary">
+              Edit profile
+            </Button>
           </Link>
         ) : (
           <Button className="w-full">Follow</Button>

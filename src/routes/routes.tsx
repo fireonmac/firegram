@@ -6,7 +6,7 @@ import { loader as signOutLoader } from "./signout";
 import Home from "./home";
 import Explore from "./explore";
 import Reels from "./reels";
-import Profile from "./profile";
+import Profile, { loader as profileLoader } from "./profile";
 import SignUp, { action as signUpAction } from "./signup";
 import ProfileEdit, { action as profileEditAction } from "./profile-edit";
 import ProfileCreate, { action as profileCreateAction } from "./profile-create";
@@ -44,6 +44,7 @@ const privateRoutes = [
   {
     path: ":username",
     element: <Profile />,
+    loader: profileLoader
   },
   {
     path: "accounts/edit",
